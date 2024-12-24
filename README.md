@@ -186,3 +186,46 @@
     - Enables open-source sharing without exposing sensitive data.
 
 ## How to Create a Helm Chart
+- **Steps to Create a Chart**:
+  - Install Helm (ensure version 3).
+  - Run `helm create <chart name>`.
+  - This generates a directory structure with essential files and folders.
+
+- **Key Files in a Helm Chart**:
+  - **`chart.yaml`**:
+    - Contains metadata like chart version, name, and description.
+    - Includes external dependencies via the `dependencies` key.
+  - **`values.yaml`**:
+    - Stores default values for variables used in templates.
+  - **`templates` Directory**:
+    - Holds manifest files passed to Kubernetes.
+  - **`charts` Directory**:
+    - Used for chart dependencies you manage internally.
+    - Dependencies are installed in order, e.g., `C → B → A` for A depending on B and B on C.
+
+- **Important Note**:
+  - Helm 2 required a server-side component (Tiller), tying installation to a single cluster.
+  - Helm 3 removed Tiller, using CRDs instead, but not all Kubernetes versions support it.
+
+- **Example Repository**:
+  - Check repositories like Zaqar’s for how to publish open-source charts.
+
+## How to Host a Helm Chart
+- **Hosting Options**:
+  - Helm provides a public library for widely used charts, similar to Docker Hub.
+  - You can create your own chart repository and host it online.
+
+- **Chart Repository Structure**:
+  - A chart repository is essentially an `index.yaml` file served from a static web server.
+  - The `index.yaml` lists available chart versions, their SHA256 digests, and the location of packaged `.tgz` files.
+
+- **Examples**:
+  - Host on GitHub Pages (e.g., Zaqar’s repository hosted on a custom domain).
+  - Use hosted services like Azure Container Registry (Azure CR).
+  - Use tools like Chart Museum for a dedicated solution with a user-friendly UI.
+
+- **Benefits**:
+  - No need to keep repositories cloned locally.
+  - Charts can be public or private, ensuring flexibility in hosting.
+  - Simplifies chart sharing and version management.
+
